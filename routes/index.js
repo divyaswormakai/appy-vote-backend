@@ -13,6 +13,14 @@ const colors = [
 	'rgba(0, 150,150, 1)',
 	'rgba(150, 99, 200, 1)',
 ];
+
+const presidents = [
+	'Donald J. Trump',
+	'Joe Biden',
+	'Berney Sanders',
+	'Eliazabeth Warren',
+	'Mike Blooomberg',
+];
 /* GET home page. */
 router.get('/', function (req, res, next) {
 	res.render('index', { title: 'Express' });
@@ -39,74 +47,30 @@ router.get('/overviewMobile', async (req, res, next) => {
 		let primaryParty = [];
 		let secondaryParty = [];
 
-		primaryVotes.forEach((candidate, indx) => {
+		presidents.forEach((candidate, indx) => {
 			let primaryTemp = {};
 			let secondaryTemp = {};
-			primaryTemp.name = candidate._id;
+
+			let primarycount = primaryVotes.find((vote) => vote._id === candidate);
+			let secondarycount = secondaryVotes.find(
+				(vote) => vote._id === candidate
+			);
+
+			primaryTemp.name = candidate;
 			primaryTemp.color = colors[indx];
 			primaryTemp.legendFontColor = '#7f7f7f';
 			primaryTemp.legendFontSize = 15;
-			primaryTemp.population = primaryVotes[indx].count;
+			primaryTemp.population = primarycount ? primarycount.count : 0;
 
 			secondaryTemp = { ...primaryTemp };
-			secondaryTemp.population = secondaryVotes[indx].count;
+			secondaryTemp.population = secondarycount ? secondarycount.count : 0;
 			primaryParty.push(primaryTemp);
 			secondaryParty.push(secondaryTemp);
 		});
 
 		let returnData = { primaryParty, secondaryParty };
 		res.send(returnData);
-		// const data = {
-		// 	US: [
-		// 		{
-		// 			name: 'Seoul',
-		// 			population: Math.ceil(Math.random() * 10000),
-		// 			color: 'rgba(131, 167, 234, 1)',
-		// 			legendFontColor: '#7F7F7F',
-		// 			legendFontSize: 15,
-		// 		},
-		// 		{
-		// 			name: 'Toronto',
-		// 			population: Math.ceil(Math.random() * 100000),
-		// 			color: '#F00',
-		// 			legendFontColor: '#7F7F7F',
-		// 			legendFontSize: 15,
-		// 		},
-		// 		{
-		// 			name: 'Beijing',
-		// 			population: Math.ceil(Math.random() * 100000),
-		// 			color: 'red',
-		// 			legendFontColor: '#7F7F7F',
-		// 			legendFontSize: 15,
-		// 		},
-		// 	],
-		// 	Others: [
-		// 		{
-		// 			name: 'Seoul',
-		// 			population: Math.ceil(Math.random() * 10000),
-		// 			color: 'rgba(131, 167, 234, 1)',
-		// 			legendFontColor: '#7F7F7F',
-		// 			legendFontSize: 15,
-		// 		},
-		// 		{
-		// 			name: 'Toronto',
-		// 			population: Math.ceil(Math.random() * 100000),
-		// 			color: '#F00',
-		// 			legendFontColor: '#7F7F7F',
-		// 			legendFontSize: 15,
-		// 		},
-		// 		{
-		// 			name: 'Beijing',
-		// 			population: Math.ceil(Math.random() * 100000),
-		// 			color: 'red',
-		// 			legendFontColor: '#7F7F7F',
-		// 			legendFontSize: 15,
-		// 		},
-		// 	],
-		// };
-		// res.send(data);
 	} catch (err) {
-		// console.log(err.message);
 		res.send({ error: err.message });
 	}
 });
@@ -122,58 +86,48 @@ router.get('/overview', async (req, res, next) => {
 			{ $group: { _id: '$secondaryParty', count: { $sum: 1 } } },
 			{ $sort: { _id: 1 } },
 		]);
-		// console.log(primaryVotes);
-		// console.log(secondaryVotes);
 		let returnData = { labels: ['Primary Votes', 'Secondary Votes'] };
-		const dataSets = primaryVotes.map((candidate, indx) => {
+		const dataSets = presidents.map((candidate, indx) => {
+			let primary = primaryVotes.find((vote) => vote._id === candidate);
+			let secondary = secondaryVotes.find((vote) => vote._id === candidate);
 			return {
-				label: candidate._id,
-				data: [primaryVotes[indx].count, secondaryVotes[indx].count],
+				label: candidate,
+				data: [primary ? primary.count : 0, secondary ? secondary.count : 0],
 				backgroundColor: colors[indx],
 			};
 		});
+
 		returnData.datasets = dataSets;
-		// let tempData = {
-		// 	labels: ['In US', 'Other Countries'],
-		// 	datasets: [
-		// 		{
-		// 			// data[0] for US, data[1] for all other countries
-		// 			label: 'President 1 ',
-		// 			data: [
-		// 				Math.ceil(Math.random() * 100000),
-		// 				Math.ceil(Math.random() * 100000),
-		// 			],
-		// 			backgroundColor: 'rgba(0, 99, 132, 0.6)',
-		// 		},
-		// 		{
-		// 			label: 'President 2',
-		// 			data: [
-		// 				Math.ceil(Math.random() * 100000),
-		// 				Math.ceil(Math.random() * 100000),
-		// 			],
-		// 			backgroundColor: 'rgba(255, 255, 132, 0.6)',
-		// 		},
-		// 		{
-		// 			label: 'President 3',
-		// 			data: [
-		// 				Math.ceil(Math.random() * 100000),
-		// 				Math.ceil(Math.random() * 100000),
-		// 			],
-		// 			backgroundColor: 'rgba(255, 99, 132, 0.6)',
-		// 		},
-		// 		{
-		// 			label: 'President 4',
-		// 			data: [
-		// 				Math.ceil(Math.random() * 100000),
-		// 				Math.ceil(Math.random() * 100000),
-		// 			],
-		// 			backgroundColor: 'rgba(255, 99, 0, 0.6)',
-		// 		},
-		// 	],
-		// };
 		res.send(returnData);
 	} catch (err) {
-		// console.log(err);
+		res.send({ error: err.message });
+	}
+});
+
+router.get('/comments', async (req, res, next) => {
+	try {
+		const votes = await Vote.find().populate('user');
+		console.log(votes);
+		let filteredComments = votes
+			.filter((vote) => vote.comment.length > 0)
+			.map((vote) => {
+				return {
+					comment: vote.comment,
+					user: vote.user.displayName,
+				};
+			});
+		res.send(filteredComments);
+	} catch (err) {
+		res.send({ error: err.message });
+	}
+});
+
+router.get('/totalCounts', async (req, res, next) => {
+	try {
+		const votes = await Vote.countDocuments({}).exec();
+		const users = await User.countDocuments({}).exec();
+		res.send({ voteCount: votes, userCount: users });
+	} catch (err) {
 		res.send({ error: err.message });
 	}
 });
