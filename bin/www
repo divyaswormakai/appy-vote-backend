@@ -47,7 +47,7 @@ const getDataandEmit = async (socket) => {
 	try {
 		const res = await axios.get(
 			// 'https://makai-test.herokuapp.com/api/overview'
-			'http://localhost:3000/api/overview'
+			'http://appyvote.com:3000/api/overview'
 		);
 		socket.emit('getOverviewData', res.data);
 	} catch (err) {
@@ -71,7 +71,7 @@ const getDataandEmitMobile = async (socket) => {
 	try {
 		const res = await axios.get(
 			// 'https://makai-test.herokuapp.com/api/overviewMobile'
-			'http://localhost:3000/api/overviewMobile'
+			'http://appyvote.com:3000/api/overviewMobile'
 		);
 		socket.emit('getOverviewDataMobile', res.data);
 	} catch (err) {
@@ -95,7 +95,7 @@ const getCommentsandEmit = async (socket) => {
 	try {
 		const res = await axios.get(
 			// 'https://makai-test.herokuapp.com/api/comments'
-			'http://localhost:3000/api/comments'
+			'http://appyvote.com:3000/api/comments'
 		);
 		socket.emit('getComments', res.data);
 	} catch (err) {
