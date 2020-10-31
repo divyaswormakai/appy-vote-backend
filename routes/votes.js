@@ -11,9 +11,7 @@ router.get('/', async (req, res, next) => {
 	try {
 		//Let the server put this line of code in the waiting section so that others can execute
 		let votes = await Vote.find();
-		console.log(votes.length);
 		let newModifiedVotes = votes.map((vote) => {
-			console.log(vote);
 			return vote.toJSON();
 		});
 		res.status(201).json(newModifiedVotes);
@@ -38,7 +36,6 @@ router.post('/vote', async (req, res) => {
 		let modifiedToken = token.replace('Bearer ', '');
 		//Getting the actual token with jsonwebtoken
 		let decodedToken = jwt.verify(modifiedToken, config.SECRET);
-		console.log(decodedToken);
 
 		//Checking if token is decoded properly
 		if (!token || !decodedToken.id) {

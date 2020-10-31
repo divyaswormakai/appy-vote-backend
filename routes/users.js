@@ -30,7 +30,6 @@ router.post('/profile', async (req, res, next) => {
 		let user = await User.findOne({ email: body.email });
 
 		if (!user) {
-			console.log('Create new user');
 			// create a new user and then return the user
 			const newUser = new User({
 				email: body.email,
@@ -47,7 +46,6 @@ router.post('/profile', async (req, res, next) => {
 			if (savedUser) {
 				user = savedUser;
 			}
-			console.log(user);
 		}
 
 		let detailsForToken = {
@@ -91,7 +89,6 @@ router.post('/completeProfile', async (req, res, next) => {
 			upsert: true,
 			useFindAndModify: true,
 		});
-		console.log(updatedUser);
 		if (!updatedUser) {
 			throw new Error('User update failed');
 		}
@@ -121,11 +118,10 @@ router.get(
 		};
 
 		const token = jwt.sign(detailsForToken, config.SECRET);
-		console.log('token', token);
-		// res.redirect(`http://localhost:3000/vote/?id=${id}&token=${token}`);
-		res.redirect(
-			`https://makai-test.herokuapp.com/vote?id=${id}&token=${token}`
-		);
+		res.redirect(`http://localhost:3000/vote/?id=${id}&token=${token}`);
+		// res.redirect(
+		// 	`https://makai-test.herokuapp.com/vote?id=${id}&token=${token}`
+		// );
 	}
 );
 
@@ -145,10 +141,10 @@ router.get(
 		};
 
 		const token = jwt.sign(detailsForToken, config.SECRET);
-		// res.redirect(`http://localhost:3000/vote/?id=${id}&token=${token}`);
-		res.redirect(
-			`https://makai-test.herokuapp.com/vote?id=${id}&token=${token}`
-		);
+		res.redirect(`http://localhost:3000/vote/?id=${id}&token=${token}`);
+		// res.redirect(
+		// 	`https://makai-test.herokuapp.com/vote?id=${id}&token=${token}`
+		// );
 	}
 );
 
@@ -171,10 +167,10 @@ router.get(
 		};
 
 		const token = jwt.sign(detailsForToken, config.SECRET);
-		// res.redirect(`http://localhost:3000/vote/?id=${id}&token=${token}`);
-		res.redirect(
-			`https://makai-test.herokuapp.com/vote?id=${id}&token=${token}`
-		);
+		res.redirect(`http://localhost:3000/vote/?id=${id}&token=${token}`);
+		// res.redirect(
+		// 	`https://makai-test.herokuapp.com/vote?id=${id}&token=${token}`
+		// );
 	}
 );
 

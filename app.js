@@ -19,7 +19,8 @@ var config = require('./utils/config');
 var middleware = require('./utils/middleware');
 
 //connect to database using mongoose
-let MONGODB_URI = config.MONGODB_URI;
+// let MONGODB_URI = config.MONGODB_URI;
+let MONGODB_URI = 'mongodb://localhost:27017/appyvote';
 
 // Database connection
 mongoose
@@ -30,7 +31,7 @@ mongoose
 		useFindAndModify: true,
 	})
 	.then(() => {
-		console.log('connected to MongoDB');
+		console.log('connected to MongoDB', MONGODB_URI);
 	})
 	.catch((error) => {
 		console.log('error connection to MongoDB:', error.message);

@@ -107,7 +107,6 @@ router.get('/overview', async (req, res, next) => {
 router.get('/comments', async (req, res, next) => {
 	try {
 		const votes = await Vote.find().populate('user');
-		console.log(votes);
 		let filteredComments = votes
 			.filter((vote) => vote.comment.length > 0)
 			.map((vote) => {
@@ -132,10 +131,70 @@ router.get('/totalCounts', async (req, res, next) => {
 	}
 });
 
+router.get('/ageData', async (req, res, next) => {
+	try {
+		const data = await Vote.find().populate('user');
+		let count = [0, 0, 0];
+
+		data.forEach((vote) => {
+			if (vote.user.age <= 30) {
+				count[0] += 1;
+			} else if (vote.user.age <= 50) {
+				count[1] += 1;
+			} else {
+				count[2] += 1;
+			}
+		});
+
+		const returnData = {
+			labels: ['18-30', '30-50', '50+'],
+			datasets: [
+				{
+					label: 'US',
+					data: count,
+					backgroundColor: [
+						'rgba(0, 99, 132, 1)',
+						'rgba(255, 99, 132, 1)',
+						'rgba(0, 255, 132, 1)',
+						'rgba(150, 99, 0, 1)',
+					],
+				},
+			],
+		};
+		res.send(returnData);
+	} catch (err) {
+		res.send({ error: err.message });
+	}
+});
+
+router.get('/bubbleChart', async (req, res, next) => {
+	try {
+		let allObj = {};
+		let returnData = [];
+		const voteData = await Vote.find().populate('user');
+		voteData.forEach((data) => {
+			if (allObj[data.user.country]) {
+				allObj[data.user.country] += 1;
+			} else {
+				allObj[data.user.country] = 1;
+			}
+		});
+		Object.keys(allObj).map((key) => {
+			let temp = {};
+			temp.label = key;
+			temp.value = allObj[key];
+			returnData.push(temp);
+		});
+		res.send(returnData);
+	} catch (err) {
+		res.send({ error: err.message });
+	}
+});
+
 router.get('/forum', async (req, res, next) => {
 	try {
 		let result = await axios.get(
-			'http://www.reddit.com/r/TrueOffMyChest/hot.json?sort=hot&count=10'
+			'http://www.reddit.com/r/politics/hot.json?sort=hot&count=15'
 		);
 		let returnData = result.data.data.children.map((child) => {
 			let date = new Date(child.data.created_utc);

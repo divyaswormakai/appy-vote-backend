@@ -18,7 +18,7 @@ const { clear } = require('console');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(config.PORT || '3001');
+var port = normalizePort(config.PORT || '3000');
 app.set('port', port);
 
 /**
@@ -46,8 +46,8 @@ io.on('connection', (socket) => {
 const getDataandEmit = async (socket) => {
 	try {
 		const res = await axios.get(
-			'https://makai-test.herokuapp.com/api/overview'
-			// 'http://localhost:3001/api/overview'
+			// 'https://makai-test.herokuapp.com/api/overview'
+			'http://localhost:3000/api/overview'
 		);
 		socket.emit('getOverviewData', res.data);
 	} catch (err) {
@@ -70,7 +70,8 @@ io.on('connection', (socket) => {
 const getDataandEmitMobile = async (socket) => {
 	try {
 		const res = await axios.get(
-			'https://makai-test.herokuapp.com/api/overviewMobile'
+			// 'https://makai-test.herokuapp.com/api/overviewMobile'
+			'http://localhost:3000/api/overviewMobile'
 		);
 		socket.emit('getOverviewDataMobile', res.data);
 	} catch (err) {
@@ -93,10 +94,9 @@ io.on('connection', (socket) => {
 const getCommentsandEmit = async (socket) => {
 	try {
 		const res = await axios.get(
-			'https://makai-test.herokuapp.com/api/comments'
-			// 'http://localhost:3001/api/comments'
+			// 'https://makai-test.herokuapp.com/api/comments'
+			'http://localhost:3000/api/comments'
 		);
-		console.log('Comment things');
 		socket.emit('getComments', res.data);
 	} catch (err) {
 		console.log(err.message);
