@@ -21,6 +21,14 @@ const presidents = [
 	'Eliazabeth Warren',
 	'Mike Blooomberg',
 ];
+
+const presidentsMobile = [
+	'D. Trump',
+	'J. Biden',
+	'B. Sanders',
+	'E. Warren',
+	'M. Blooomberg',
+];
 /* GET home page. */
 router.get('/', function (req, res, next) {
 	res.render('index', { title: 'Express' });
@@ -56,7 +64,7 @@ router.get('/overviewMobile', async (req, res, next) => {
 				(vote) => vote._id === candidate
 			);
 
-			primaryTemp.name = candidate;
+			primaryTemp.name = presidentsMobile[indx];
 			primaryTemp.color = colors[indx];
 			primaryTemp.legendFontColor = '#7f7f7f';
 			primaryTemp.legendFontSize = 15;
