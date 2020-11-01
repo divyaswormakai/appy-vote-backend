@@ -118,7 +118,7 @@ router.get(
 		};
 
 		const token = jwt.sign(detailsForToken, config.SECRET);
-		res.redirect(`http://appyvote.com/vote/?id=${id}&token=${token}`);
+		res.redirect(`${config.BACKEND_URI}/vote/?id=${id}&token=${token}`);
 		// res.redirect(
 		// 	`https://makai-test.herokuapp.com/vote?id=${id}&token=${token}`
 		// );
@@ -141,7 +141,7 @@ router.get(
 		};
 
 		const token = jwt.sign(detailsForToken, config.SECRET);
-		res.redirect(`http://appyvote.com/vote/?id=${id}&token=${token}`);
+		res.redirect(`${config.BACKEND_URI}/vote/?id=${id}&token=${token}`);
 		// res.redirect(
 		// 	`https://makai-test.herokuapp.com/vote?id=${id}&token=${token}`
 		// );
@@ -167,7 +167,7 @@ router.get(
 		};
 
 		const token = jwt.sign(detailsForToken, config.SECRET);
-		res.redirect(`http://appyvote.com/vote/?id=${id}&token=${token}`);
+		res.redirect(`${config.BACKEND_URI}/vote/?id=${id}&token=${token}`);
 		// res.redirect(
 		// 	`https://makai-test.herokuapp.com/vote?id=${id}&token=${token}`
 		// );
@@ -190,7 +190,7 @@ router.get(
 		};
 
 		const token = jwt.sign(detailsForToken, config.SECRET);
-		res.redirect(`http://appyvote.com/vote?id=${id}&token=${token}`);
+		res.redirect(`${config.BACKEND_URI}/vote?id=${id}&token=${token}`);
 	}
 );
 module.exports = router;
