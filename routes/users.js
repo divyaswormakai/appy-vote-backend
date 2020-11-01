@@ -8,7 +8,7 @@ const passport = require('passport');
 const { update } = require('../models/user.model');
 
 /* GET all users. */
-// localhost:3000/users/
+// localhost/users/
 router.get('/', async (req, res, next) => {
 	try {
 		//Let the server put this line of code in the waiting section so that others can execute
@@ -118,7 +118,7 @@ router.get(
 		};
 
 		const token = jwt.sign(detailsForToken, config.SECRET);
-		res.redirect(`http://appyvote.com:3000/vote/?id=${id}&token=${token}`);
+		res.redirect(`http://appyvote.com/vote/?id=${id}&token=${token}`);
 		// res.redirect(
 		// 	`https://makai-test.herokuapp.com/vote?id=${id}&token=${token}`
 		// );
@@ -141,7 +141,7 @@ router.get(
 		};
 
 		const token = jwt.sign(detailsForToken, config.SECRET);
-		res.redirect(`http://appyvote.com:3000/vote/?id=${id}&token=${token}`);
+		res.redirect(`http://appyvote.com/vote/?id=${id}&token=${token}`);
 		// res.redirect(
 		// 	`https://makai-test.herokuapp.com/vote?id=${id}&token=${token}`
 		// );
@@ -167,7 +167,7 @@ router.get(
 		};
 
 		const token = jwt.sign(detailsForToken, config.SECRET);
-		res.redirect(`http://appyvote.com:3000/vote/?id=${id}&token=${token}`);
+		res.redirect(`http://appyvote.com/vote/?id=${id}&token=${token}`);
 		// res.redirect(
 		// 	`https://makai-test.herokuapp.com/vote?id=${id}&token=${token}`
 		// );
@@ -190,13 +190,13 @@ router.get(
 		};
 
 		const token = jwt.sign(detailsForToken, config.SECRET);
-		res.redirect(`http://appyvote.com:3000/vote?id=${id}&token=${token}`);
+		res.redirect(`http://appyvote.com/vote?id=${id}&token=${token}`);
 	}
 );
 module.exports = router;
 
 // Registering a new user
-//localhost:3000/users/register
+//localhost/users/register
 router.post('/register', async (req, res, next) => {
 	try {
 		//getting body from the browser
@@ -228,7 +228,7 @@ router.post('/register', async (req, res, next) => {
 });
 
 //Login the user
-//localhost:3000/users/login
+//localhost/users/login
 router.post('/login', async (req, res, next) => {
 	try {
 		let body = req.body;
