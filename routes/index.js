@@ -5,6 +5,8 @@ const config = require('../utils/config');
 
 const User = require('../models/user.model');
 const Vote = require('../models/vote.model');
+const Mail = require('../models/mail.model');
+
 const colors = [
 	'rgba(0, 99, 132, 1)',
 	'rgba(255, 255, 132, 1)',
@@ -238,6 +240,28 @@ router.get('/news', async (req, res, next) => {
 			};
 		});
 		res.send(returnData);
+	} catch (err) {
+		console.log(err);
+		res.send({ error: err.message });
+	}
+});
+
+router.post('/sendMail', async (req, res, next) => {
+	try {
+		let body = req.body;
+		let mail = new Mail({
+			from: body.from,
+			subject: body.subject,
+			body: body.body,
+		});
+
+		let savedMail = await mail.save();
+		if (savedMail) {
+			console.log(savedMail);
+			res.send({ success: true });
+		} else {
+			throw new Error('Could not send mail');
+		}
 	} catch (err) {
 		console.log(err);
 		res.send({ error: err.message });
