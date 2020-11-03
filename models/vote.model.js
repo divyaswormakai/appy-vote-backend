@@ -6,7 +6,7 @@ const uniqueValidator = require('mongoose-unique-validator');
 const voteSchema = mongoose.Schema({
 	//define the properties
 	primaryParty: { type: String, required: true },
-	secondaryParty: { type: String, required: true },
+	secondaryParty: { type: String },
 	user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // DKS: save querying twice for voting and users
 	comment: { type: String },
 });

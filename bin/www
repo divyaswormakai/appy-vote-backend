@@ -97,7 +97,6 @@ const getCommentsandEmit = async (socket) => {
 			// 'https://makai-test.herokuapp.com/api/comments'
 			`${config.BACKEND_URI}/api/comments`
 		);
-		console.log(res.data);
 		socket.emit('getComments', res.data);
 	} catch (err) {
 		console.log(err.message);

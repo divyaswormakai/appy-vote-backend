@@ -49,36 +49,22 @@ router.get('/overviewMobile', async (req, res, next) => {
 			{ $group: { _id: '$primaryParty', count: { $sum: 1 } } },
 			{ $sort: { _id: 1 } },
 		]);
-		const secondaryVotes = await Vote.aggregate([
-			{ $group: { _id: '$secondaryParty', count: { $sum: 1 } } },
-			{ $sort: { _id: 1 } },
-		]);
 
 		let primaryParty = [];
-		let secondaryParty = [];
 
 		presidents.forEach((candidate, indx) => {
 			let primaryTemp = {};
-			let secondaryTemp = {};
 
 			let primarycount = primaryVotes.find((vote) => vote._id === candidate);
-			let secondarycount = secondaryVotes.find(
-				(vote) => vote._id === candidate
-			);
 
 			primaryTemp.name = presidentsMobile[indx];
 			primaryTemp.color = colors[indx];
 			primaryTemp.legendFontColor = '#7f7f7f';
 			primaryTemp.legendFontSize = 15;
 			primaryTemp.population = primarycount ? primarycount.count : 0;
-
-			secondaryTemp = { ...primaryTemp };
-			secondaryTemp.population = secondarycount ? secondarycount.count : 0;
-			primaryParty.push(primaryTemp);
-			secondaryParty.push(secondaryTemp);
 		});
 
-		let returnData = { primaryParty, secondaryParty };
+		let returnData = { primaryParty };
 		res.send(returnData);
 	} catch (err) {
 		res.send({ error: err.message });
@@ -92,17 +78,13 @@ router.get('/overview', async (req, res, next) => {
 			{ $group: { _id: '$primaryParty', count: { $sum: 1 } } },
 			{ $sort: { _id: 1 } },
 		]);
-		const secondaryVotes = await Vote.aggregate([
-			{ $group: { _id: '$secondaryParty', count: { $sum: 1 } } },
-			{ $sort: { _id: 1 } },
-		]);
-		let returnData = { labels: ['Primary Votes', 'Secondary Votes'] };
+
+		let returnData = { labels: ['Primary Votes'] };
 		const dataSets = presidents.map((candidate, indx) => {
 			let primary = primaryVotes.find((vote) => vote._id === candidate);
-			let secondary = secondaryVotes.find((vote) => vote._id === candidate);
 			return {
 				label: candidate,
-				data: [primary ? primary.count : 0, secondary ? secondary.count : 0],
+				data: [primary ? primary.count : 0],
 				backgroundColor: colors[indx],
 			};
 		});
