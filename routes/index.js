@@ -62,6 +62,7 @@ router.get('/overviewMobile', async (req, res, next) => {
 			primaryTemp.legendFontColor = '#7f7f7f';
 			primaryTemp.legendFontSize = 15;
 			primaryTemp.population = primarycount ? primarycount.count : 0;
+			primaryParty.push(primaryTemp);
 		});
 
 		let returnData = { primaryParty };
