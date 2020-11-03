@@ -20,8 +20,8 @@ const presidents = [
 	'Donald J. Trump',
 	'Joe Biden',
 	'Berney Sanders',
-	'Eliazabeth Warren',
-	'Mike Blooomberg',
+	'Elizabeth Warren',
+	'Mike Bloomberg',
 ];
 
 const presidentsMobile = [
